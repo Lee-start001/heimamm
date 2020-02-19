@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <router-view></router-view>
-    <router-link to="/">点我啊</router-link>
-    <el-button>默认按钮</el-button>
-  </div>
+ 
+    <router-view></router-view>   
+  
 </template>
 
 <script>
