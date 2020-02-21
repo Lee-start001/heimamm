@@ -46,15 +46,14 @@
 
         <el-form-item>
           <el-button class="login-btn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          <el-button class="login-btn" type="primary">注册</el-button>
+          <el-button class="login-btn" type="primary" @click="showrsg">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
 
     <!-- 注册表单 -->
     <!-- 使用组件 -->
-    <reg></reg>
-
+    <reg ref="reg"></reg>
 
     <!-- 右侧图片 -->
     <img src="./images/login_banner_ele.png" alt />
@@ -98,6 +97,7 @@ export default {
     };
   },
   methods: {
+    //  点击登录事件
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -107,10 +107,14 @@ export default {
           return false;
         }
       });
-    }
+    },
     // resetForm(formName) {
     //   this.$refs[formName].resetFields();
     // }
+    //  点击注册事件
+    showrsg() {
+      this.$refs.reg.dialogFormVisible = true;
+    }
   }
 };
 </script>
