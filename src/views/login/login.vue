@@ -1,5 +1,6 @@
 <template>
   <div class="login-wrap">
+    <!--   登录 左侧盒子 -->
     <div class="box1">
       <div class="title-box">
         <img src="./images/login-icon9.png" alt />
@@ -33,8 +34,8 @@
           </el-row>
         </el-form-item>
 
-        <el-form-item   prop="checked">
-          <el-checkbox v-model="ruleForm.checked" class="agree" >
+        <el-form-item prop="checked">
+          <el-checkbox v-model="ruleForm.checked" class="agree">
             <span>
               我已阅读并同意
               <el-link type="primary">用户协议</el-link>和
@@ -50,34 +51,49 @@
       </el-form>
     </div>
 
+    <!-- 注册表单 -->
+    <!-- 使用组件 -->
+    <reg></reg>
+
+
+    <!-- 右侧图片 -->
     <img src="./images/login_banner_ele.png" alt />
   </div>
 </template>
 
 <script>
+//  导入组件
+import reg from "./components/register.vue";
 export default {
+  //  注册组件
+  components: {
+    reg
+  },
   data() {
     return {
       ruleForm: {
         name: "",
         psw: "",
         code: "",
-        checked: "",
-       
+        checked: ""
       },
       rules: {
         name: [{ required: true, message: "请输入账号", trigger: "blur" }],
         psw: [{ required: true, message: "请输入密码", trigger: "blur" }],
         code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
-        checked:[
+        checked: [
           // 多选框没有失去焦点，只有值改变事件
           // 因为checkbox其实他不可能值为空，除非你强行赋值为空
           // 所以我们不能拿值是否为空来做验证了
           // { required:true, message:'必须勾选同意用户协议',trigger:"change"},
 
           // 只有值为true才满足条件，否则代表不匹配
-          { pattern:/true/, message:'必须勾选同意用户协议',trigger:"change"}
-        ],
+          {
+            pattern: /true/,
+            message: "必须勾选同意用户协议",
+            trigger: "change"
+          }
+        ]
       }
     };
   },
