@@ -5,6 +5,7 @@
       <el-form-item label="头像" :label-width="formLabelWidth" prop="avatar">
         <el-upload
           v-model="form.avatar"
+          
           name="image"
           class="avatar-uploader"
           :action="uploadUrl"
@@ -65,6 +66,7 @@
 
 <script>
 //  导入
+
 //import axios from "axios";
 //  导入封装好的方法
 import { getMsg, register } from "@/api/reg.js";

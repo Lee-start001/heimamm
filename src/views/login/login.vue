@@ -29,7 +29,8 @@
               <el-input v-model="ruleForm.code" prefix-icon="el-icon-key" placeholder="请输入验证码"></el-input>
             </el-col>
             <el-col :span="7">
-              <img class="login-img" src="./images/login_code.png" alt />
+              <!-- 添加一个点击刷新验证码的事件 -->
+              <img @click="changecode" class="login-img" :src="imgUrl" alt />
             </el-col>
           </el-row>
         </el-form-item>
@@ -63,19 +64,28 @@
 <script>
 //  导入组件
 import reg from "./components/register.vue";
+
+import {getcode} from '../../api/login.js'
 export default {
   //  注册组件
   components: {
     reg
   },
   data() {
+    
     return {
+      //   设置一个变量存放验证码
+     imgUrl: process.env.VUE_APP_URL + "/captcha?type=login",
+       
+       // 表单绑定数据
       ruleForm: {
         name: "",
         psw: "",
         code: "",
         checked: ""
       },
+
+      //  规则对象
       rules: {
         name: [{ required: true, message: "请输入账号", trigger: "blur" }],
         psw: [{ required: true, message: "请输入密码", trigger: "blur" }],
@@ -97,15 +107,30 @@ export default {
     };
   },
   methods: {
+    //  点击图片  切换验证码
+    changecode(){
+        this.imgUrl = process.env.VUE_APP_URL + "/captcha?type=login&sb=" + Date.now();
+    },
     //  点击登录事件
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
+          getcode({
+            phone: this.ruleForm.name,
+            password: this.ruleForm.psw,
+            code: this.ruleForm.code,
+          }).then(res=>{
+            window.console.log(res)
+            if(res.data.code==200){
+              //  把token值 存起来 
+              window.localStorage.setItem('token',res.data.data.token)
+              this.$message.success("登陆成功")
+              this.$router.push('/index')
+            }else{
+              this.$message.error(res.data.message)
+            }
+          })
+        } 
       });
     },
     // resetForm(formName) {
