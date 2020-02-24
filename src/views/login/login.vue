@@ -64,6 +64,8 @@
 <script>
 //  导入组件
 import reg from "./components/register.vue";
+//  导入token方法
+import {settoken} from '@/utilis/token.js'
 
 import {getcode} from '../../api/login.js'
 export default {
@@ -123,7 +125,10 @@ export default {
             window.console.log(res)
             if(res.data.code==200){
               //  把token值 存起来 
-              window.localStorage.setItem('token',res.data.data.token)
+              // window.localStorage.setItem('token',res.data.data.token)
+              //  保存token
+             settoken(res.data.data.token)
+   
               this.$message.success("登陆成功")
               this.$router.push('/index')
             }else{
