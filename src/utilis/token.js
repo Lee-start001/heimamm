@@ -3,8 +3,8 @@ const TOKEN = 'heimamm'
 
 // 暴露出来  
 //  保存token
-export function settoken(data) {
-    window.localStorage.setItem(TOKEN, data)
+export function settoken(token) {
+    window.localStorage.setItem(TOKEN, token)
 }
 
 //  获取token
@@ -15,5 +15,5 @@ export function gettoken() {
 //  删除token
 
 export function removetoken() {
-    window.localStorage.removetoken(TOKEN)
+    window.localStorage.removeItem(TOKEN)
 }

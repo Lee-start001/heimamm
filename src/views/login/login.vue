@@ -81,10 +81,10 @@ export default {
        
        // 表单绑定数据
       ruleForm: {
-        name: "",
-        psw: "",
+        name: "15111111111",
+        psw: "123456",
         code: "",
-        checked: ""
+        checked: true
       },
 
       //  规则对象

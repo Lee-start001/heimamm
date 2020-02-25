@@ -10,3 +10,4 @@ export function getcode(data){
         withCredentials: true
     })
 }
+
