@@ -13,8 +13,12 @@ import './style/base.css'
 Vue.config.productionTip = false
 
 import router from './router/index'
+import store from './store/index'
+
 new Vue({
   //5. 全局注入vue
   router,
+  store,
+  
   render: h => h(App),
 }).$mount('#app')

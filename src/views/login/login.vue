@@ -65,21 +65,20 @@
 //  导入组件
 import reg from "./components/register.vue";
 //  导入token方法
-import {settoken} from '@/utilis/token.js'
+import { settoken } from "@/utilis/token.js";
 
-import {getcode} from '../../api/login.js'
+import { getcode } from "../../api/login.js";
 export default {
   //  注册组件
   components: {
     reg
   },
   data() {
-    
     return {
       //   设置一个变量存放验证码
-     imgUrl: process.env.VUE_APP_URL + "/captcha?type=login",
-       
-       // 表单绑定数据
+      imgUrl: process.env.VUE_APP_URL + "/captcha?type=login",
+
+      // 表单绑定数据
       ruleForm: {
         name: "15111111111",
         psw: "123456",
@@ -108,10 +107,12 @@ export default {
       }
     };
   },
+ 
   methods: {
     //  点击图片  切换验证码
-    changecode(){
-        this.imgUrl = process.env.VUE_APP_URL + "/captcha?type=login&sb=" + Date.now();
+    changecode() {
+      this.imgUrl =
+        process.env.VUE_APP_URL + "/captcha?type=login&sb=" + Date.now();
     },
     //  点击登录事件
     submitForm(formName) {
@@ -120,22 +121,22 @@ export default {
           getcode({
             phone: this.ruleForm.name,
             password: this.ruleForm.psw,
-            code: this.ruleForm.code,
-          }).then(res=>{
-            window.console.log(res)
-            if(res.data.code==200){
-              //  把token值 存起来 
+            code: this.ruleForm.code
+          }).then(res => {
+            window.console.log(res);
+            if (res.data.code == 200) {
+              //  把token值 存起来
               // window.localStorage.setItem('token',res.data.data.token)
               //  保存token
-             settoken(res.data.data.token)
-   
-              this.$message.success("登陆成功")
-              this.$router.push('/index')
-            }else{
-              this.$message.error(res.data.message)
+              settoken(res.data.data.token);
+
+              this.$message.success("登陆成功");
+              this.$router.push("/index");
+            } else {
+              this.$message.error(res.data.message);
             }
-          })
-        } 
+          });
+        }
       });
     },
     // resetForm(formName) {

@@ -12,8 +12,10 @@
       </div>
       <!-- 右边盒子 -->
       <div class="right">
-        <img :src="avatar" alt />
-        <span class="name">{{username}}</span>
+        <!-- 行内访问vuex无需在前面加this. -->
+        <img :src="$store.state.avatar" alt />
+        <span class="name">{{$store.state.username}}</span>
+
         <el-button type="primary" size="mini" @click="getout">退出</el-button>
       </div>
     </el-header>
@@ -56,9 +58,9 @@
 
 <script>
 //  导入
-import { info, logout } from "@/api/index.js";
+import { logout } from "@/api/index.js";
 //  导入token
-import { removetoken } from "../../utilis/token.js";
+import { removetoken, gettoken } from "../../utilis/token.js";
 
 export default {
   data() {
@@ -73,15 +75,21 @@ export default {
   },
   created() {
     // 获取登录用户的信息
-    info().then(res => {
-      // console.log(res);
-      this.username = res.data.data.username;
-      // 记得在前面还要拼接基地址，因为返回的头像路径不完整，要拼接
-      // 还要拼接/，不然就连在一起了
-      this.avatar = process.env.VUE_APP_URL + "/" + res.data.data.avatar;
-    });
+    // info().then(res => {
+    //   // console.log(res);
+    //   this.username = res.data.data.username;
+    //   // 记得在前面还要拼接基地址，因为返回的头像路径不完整，要拼接
+    //   // 还要拼接/，不然就连在一起了
+    //   this.avatar = process.env.VUE_APP_URL + "/" + res.data.data.avatar;
+    // });
   },
 
+  beforeCreate() {
+    if (gettoken() == null) {
+      this.$message.error("请先登录");
+      this.$router.push("/");
+    }
+  },
   // 方法
   methods: {
     getout() {
@@ -94,8 +102,14 @@ export default {
           //发请求
           logout().then(() => {
             this.$message.success("退出成功！");
+            //  删除本地token值
             removetoken();
+
+            //  删除vuex 的数据
+            this.$store.commit("changeUsername", "");
+            this.$store.commit("changeAvatar", "");
             // 跳转到登录页面
+
             this.$router.push("/");
           });
         })
@@ -163,7 +177,7 @@ export default {
   }
 
   .my_main {
-    background-color: green;
+    background-color: #E8E9EC;
   }
 
   //侧边导航栏的伸缩效果优化
