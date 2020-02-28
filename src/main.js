@@ -15,6 +15,9 @@ Vue.config.productionTip = false
 import router from './router/index'
 import store from './store/index'
 
+//  导入全局过滤器  
+import '@/filters/filters.js'
+
 new Vue({
   //5. 全局注入vue
   router,

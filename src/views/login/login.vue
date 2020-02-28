@@ -80,8 +80,8 @@ export default {
 
       // 表单绑定数据
       ruleForm: {
-        name: "15111111111",
-        psw: "123456",
+        name: "18511111111",
+        psw: "12345678",
         code: "",
         checked: true
       },
