@@ -23,7 +23,7 @@ import store from '../store/index.js'
 //  导入组内data index
 import user from '../views/index/user/user.vue'
 import chart from '../views/index/chart/chart.vue'
-import company from '../views/index/company/company.vue'
+import business from '../views/index/business/business.vue'
 import question from '../views/index/question/question.vue'
 import object from '../views/index/object/object.vue'
 
@@ -60,7 +60,7 @@ const router = new VueRouter({
         // 子路由一般不加/
         { path: "user", component: user, meta: { title: "用户列表" } },
         { path: "chart", component: chart, meta: { title: "数据概览" } },
-        { path: "company", component: company, meta: { title: "企业列表" } },
+        { path: "business", component: business, meta: { title: "企业列表" } },
         { path: "question", component: question, meta: { title: "题库列表" } },
         { path: "object", component: object, meta: { title: "学科列表" } },
       ]

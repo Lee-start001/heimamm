@@ -4,7 +4,7 @@
 // //  导入token
 // import { gettoken } from '../utilis/token.js'
 
-// let subjectRequest = axios.create({
+// let businessRequest = axios.create({
 
 //     //  基地址
 //     baseURL: process.env.VUE_APP_URL,
@@ -15,7 +15,7 @@
 // })
 
 // // 添加请求拦截器
-// subjectRequest.interceptors.request.use(function (config) {
+// businessRequest.interceptors.request.use(function (config) {
 
 
 //     //  给拦截下来的请求报文 添加上token值
@@ -28,15 +28,16 @@
 // });
 
 
-//   导入 
+//  导入  
 import Request from '../utilis/rquest.js'
-// 获取科目列表信息
-export function subjectList(data) {
+
+// 获取企业列表信息
+export function businessList(data) {
 
     return Request({
-        url: "/subject/list",
-        method:"get",
-        params:data,
+        url: "/enterprise/list",
+        method: "get",
+        params: data,
     })
 }
 
@@ -44,7 +45,7 @@ export function subjectList(data) {
 export function getStatus(id) {
 
     return Request({
-        url: "/subject/status",
+        url: "/enterprise/status",
         method: "post",
         data:{
             id:id
@@ -52,31 +53,31 @@ export function getStatus(id) {
     })
 }
 
-//  增加学科
-export function subjectAdd(data) {
+//  增加企业
+export function businessAdd(data) {
 
     return Request({
-        url: "/subject/add",
+        url: "/enterprise/add",
         method: "post",
         data,
     })
 }
 
-//  学科编辑
-export function subjectEdit(data) {
+//  企业编辑
+export function businessEdit(data) {
 
     return Request({
-        url: "/subject/edit",
+        url: "/enterprise/edit",
         method: "post",
         data,
     })
 }
 
-//  学科删除
-export function subjectRemove(data) {
+//  企业删除
+export function businessRemove(data) {
 
     return Request({
-        url: "/subject/remove",
+        url: "/enterprise/remove",
         method: "post",
         data:{
             id:data
