@@ -22,30 +22,14 @@
     <el-container>
       <el-aside width="auto" class="my_aside">
         <el-menu router default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse">
-          <el-menu-item index="/index/chart">
-            <i class="el-icon-pie-chart"></i>
-            <span slot="title">数据概览</span>
+           
+         <template v-for="(item, index) in children" >
+            <el-menu-item :key="index" :index='"/index/"+ item.path' v-if="item.meta.roles.includes($store.state.role)">
+            <i :class='"el-icon-"+item.meta.icon'></i>
+            <span slot="title">{{item.meta.title}}</span>
           </el-menu-item>
+         </template>
 
-          <el-menu-item index="/index/user">
-            <i class="el-icon-user"></i>
-            <span slot="title">用户列表</span>
-          </el-menu-item>
-
-          <el-menu-item index="/index/question">
-            <i class="el-icon-edit-outline"></i>
-            <span slot="title">题库列表</span>
-          </el-menu-item>
-
-          <el-menu-item index="/index/business">
-            <i class="el-icon-office-building"></i>
-            <span slot="title">企业列表</span>
-          </el-menu-item>
-
-          <el-menu-item index="/index/object">
-            <i class="el-icon-notebook-2"></i>
-            <span slot="title">学科列表</span>
-          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-main class="my_main">
@@ -62,9 +46,14 @@ import { logout } from "@/api/index.js";
 //  导入token
 import { removetoken, gettoken } from "../../utilis/token.js";
 
+//  导入children模块
+import children from '../../router/childrenRoutes.js'
+
 export default {
   data() {
     return {
+      //  路由的规则存在数据上
+      children,
       // 用户名
       username: "",
       // 用户头像

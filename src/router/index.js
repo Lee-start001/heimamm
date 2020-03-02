@@ -20,12 +20,7 @@ import index from "../views/index/index.vue"
 // 导入vuex-store
 import store from '../store/index.js'
 
-//  导入组内data index
-import user from '../views/index/user/user.vue'
-import chart from '../views/index/chart/chart.vue'
-import business from '../views/index/business/business.vue'
-import question from '../views/index/question/question.vue'
-import object from '../views/index/object/object.vue'
+
 
 //导入axios请求
 import { info } from "@/api/index.js";
@@ -36,7 +31,8 @@ import { removetoken } from "@/utilis/token.js";
 import { Message } from 'element-ui';
 
 
-
+//  导入children
+import children from './childrenRoutes.js'
 
 //3:在vue中全局使用vue-router需要注册
 Vue.use(VueRouter);
@@ -44,10 +40,14 @@ Vue.use(VueRouter);
 //4.  实例化   设置路由规则
 const router = new VueRouter({
   routes: [
+
     {
       path: "/",
       component: login,
-      meta: { title: "登录" }
+      meta: {
+        title: "登录",
+        roles: ['超级管理员', '管理员', '老师', '学生'],
+      }
     },
     { path: "/login", redirect: '/' },
 
@@ -55,19 +55,21 @@ const router = new VueRouter({
     {
       path: "/index",
       component: index,
-      meta: { title: "注册" },
-      children: [
-        // 子路由一般不加/
-        { path: "user", component: user, meta: { title: "用户列表" } },
-        { path: "chart", component: chart, meta: { title: "数据概览" } },
-        { path: "business", component: business, meta: { title: "企业列表" } },
-        { path: "question", component: question, meta: { title: "题库列表" } },
-        { path: "object", component: object, meta: { title: "学科列表" } },
-      ]
+      meta: {
+        title: "注册",
+        roles: ['超级管理员', '管理员', '老师', '学生']
+      },
+      //  index页面子组件
+      children
     },
     //{ path: "/data", component: data }
   ]
 })
+
+
+
+// 定义白名单数组
+let whiteUrl = ['/', '/guanggao']
 
 //导航守卫前
 router.beforeEach((to, from, next) => {
@@ -76,26 +78,63 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
 
   // 先判断是否是登录  是登陆就直接放行
-  if (to.path == '/') {
+  if (whiteUrl.includes(to.path)) {
     //  放行
     next();
   } else {
     //  在进入页面之前 判断 token值 真假  
     // 获取登录用户的信息
     info().then(res => {
-      // console.log(res);
+      console.log(1);
 
-      //  判断该token参数
-      if (res.data.code == 200) {
+      console.log(res);
 
-        // 把获取的信息  存放在vuex中
-        store.commit('changeUsername', res.data.data.username);
-        store.commit('changeAvatar', process.env.VUE_APP_URL + '/' + res.data.data.avatar);
+      // 权限管理
+      //   判断状态码是否为1  若是则放行
+      if (res.data.data.status == 1) {
 
+        //  判断该token参数
+        if (res.data.code == 200) {
 
-        //  放行
-        next();
+          // 把获取的信息  存放在vuex中
+          store.commit('changeUsername', res.data.data.username);
+          store.commit('changeAvatar', process.env.VUE_APP_URL + '/' + res.data.data.avatar);
+          // 把当前账号的身份保存在vuex
+          store.commit('changeRole',res.data.data.role)
+          //   如果是从登录页面跳转过来 才提示成功
+          if (from.path == '/') {
+            //  提示登陆成功
+            Message.success("登陆成功");
+          }
 
+          //  判断 是否有求权限进入点击的子路由页面
+        if (to.meta.roles.includes(res.data.data.role)) {
+          console.log(to.meta.roles);
+          
+          // 
+          
+          // 必须满足所有条件才可 放行  
+          next();
+        } else {
+          //  提示无权限访问该页面
+          Message.error('账号无权限访问该页面');
+          // 打回原来页面
+          next(from.path);
+          //  并且手动关闭进度条
+          NProgress.done();
+        }
+
+        } else {
+          //  若不是则提示账号异常 并返回登录页
+          Message.error('账号异常 请联系管理员');
+          //  并返回登录页
+          next('/');
+          //  手动关闭进度条
+          NProgress.done();
+
+        }
+
+        
       } else {
         //  提示登录信息错误
         Message.error('登录状态异常 请重新登录');

@@ -129,8 +129,9 @@ export default {
               // window.localStorage.setItem('token',res.data.data.token)
               //  保存token
               settoken(res.data.data.token);
-
-              this.$message.success("登陆成功");
+               
+               //  登录弹框挪至导航前置守卫 权限管理处
+              //this.$message.success("登陆成功");
               this.$router.push("/index");
             } else {
               this.$message.error(res.data.message);
