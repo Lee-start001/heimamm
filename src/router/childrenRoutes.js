@@ -12,15 +12,6 @@ export default [
 
     // 子路由一般不加/
     {
-      path: "user", component: user,
-      meta: {
-        title: "用户列表",
-        roles: ['超级管理员', '管理员',],
-        icon:"user"
-      }
-    },
-
-    {
       path: "chart", component: chart,
       meta: {
         title: "数据概览",
@@ -30,11 +21,11 @@ export default [
     },
 
     {
-      path: "business", component: business,
+      path: "user", component: user,
       meta: {
-        title: "企业列表",
-        roles: ['超级管理员', '管理员', '老师'],
-        icon:"office-building"
+        title: "用户列表",
+        roles: ['超级管理员', '管理员',],
+        icon:"user"
       }
     },
 
@@ -47,6 +38,17 @@ export default [
       }
     },
 
+
+    {
+      path: "business", component: business,
+      meta: {
+        title: "企业列表",
+        roles: ['超级管理员', '管理员', '老师'],
+        icon:"office-building"
+      }
+    },
+
+    
     {
       path: "object", component: object,
       meta: {
