@@ -4,14 +4,7 @@
       <div class="text item">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
           <el-form-item label="学科">
-            <el-select v-model="formInline.subject" placeholder="请选择学科">
-              <el-option
-                v-for="(item, index) in subList"
-                :key="index"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+           <subjectList v-model="formInline.subject" />
           </el-form-item>
 
           <el-form-item label="阶段">
@@ -23,14 +16,7 @@
           </el-form-item>
 
           <el-form-item label="企业">
-            <el-select v-model="formInline.enterprise" placeholder="请选择企业">
-              <el-option
-                v-for="(item, index) in busList"
-                :key="index"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+            <businessList v-model="formInline.enterprise"></businessList>
           </el-form-item>
 
           <el-form-item label="题型">
@@ -134,11 +120,12 @@
 <script>
 //  导入
 import { questionList } from "@/api/question.js";
-import { subjectList } from "@/api/object.js";
-import { businessList } from "@/api/business.js";
+
+
 import questionAdd from "./components/questionAdd.vue";
 
 export default {
+  name:"question",
   components: {
     questionAdd
   },
@@ -158,18 +145,9 @@ export default {
     };
   },
   created() {
-    //  获取 学科数据 列表
-    subjectList({}).then(res => {
-      this.subList = res.data.data.items;
-      //console.log(res);
-      //console.log(res.data.data.items);
-    });
+    
 
-    //  获取企业列表
-    businessList({}).then(res => {
-      //console.log(res);
-      this.busList = res.data.data.items;
-    });
+   
 
     //  获取题目列表
     questionList({
